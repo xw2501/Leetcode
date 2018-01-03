@@ -1,0 +1,70 @@
+public class Solution {
+
+    public int maximalRectangle(char[][] matrix) {
+        int recMax = 0;
+        for(int i=0; i<matrix.length; i++)
+            for(int j=0; j<matrix[0].length; j++) {
+                if(matrix[i][j]==0)
+                    continue;
+                int recTemp = getMaxRectangle(matrix, i, j);
+                if(recTemp>recMax) {
+                    recMax = recTemp;
+                }
+            }
+        return recMax;
+    }
+    
+    public int getMaxRectangle(char[][] matrix, int i_index, int j_index) {
+        int i_max = 0;
+        for(int i=0; i_index+i<matrix.length; i++) {
+            i_max = i+1;
+        	if(matrix[i+i_index][j_index]==48)
+                break;
+        }
+        int[] arr = new int[i_max];
+        for(int i=0; i<i_max; i++)
+            for(int j=0; j_index+j<matrix[0].length; j++) {
+                arr[i] = j+1;
+            	if(matrix[i+i_index][j+j_index]==48) {
+                    arr[i]--;
+            		break;
+            	}
+            }
+        int res = largestRectangleArea(arr);
+        return res;
+    }
+    
+    public int largestRectangleArea(int[] heights) {
+        if(heights.length==0) {
+            return 0;
+        }
+        int rec = heights[0];
+        int minHeight = heights[0];
+        for(int i=0; i<heights.length; i++) {
+            if(heights[i]==minHeight && i>0)
+                continue;
+            int recTemp = heights[i]*getLength(heights, i);
+            if(recTemp>rec)
+                rec = recTemp;
+            if(heights[i]<minHeight)
+                minHeight = heights[i];
+        }
+        return rec;
+    }
+    
+    public int getLength(int[] heights, int index) {
+        int length = 0;
+        for(int i=index; i>=0; i--) {
+            if(heights[i]>=heights[index])
+                length++;
+            else
+                break;
+        }
+        for(int i=index+1; i<heights.length; i++)
+            if(heights[i]>=heights[index])
+                length++;
+            else
+                break;
+        return length;
+    }
+}

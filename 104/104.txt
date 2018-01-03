@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null)
+            return 0;
+        int depth = 0;
+        return DFS(root, depth);
+    }
+    
+    public int DFS(TreeNode root, int depth) {
+        depth++;
+        int leftDepth = depth;
+        int rightDepth = depth;
+        if(root.left!=null)
+            leftDepth = DFS(root.left, depth);
+        if(root.right!=null)
+            rightDepth = DFS(root.right, depth);
+        if(leftDepth>rightDepth)
+            depth = leftDepth;
+        else
+            depth = rightDepth;
+        return depth;
+    }
+}

@@ -1,0 +1,27 @@
+public class Solution {
+    public String countAndSay(int n) {
+	String str = "1";
+        n--;
+        while(n-->0) {
+            String newStr = "";
+            char preChar = str.charAt(0);
+            int cnt = 0;
+            
+            for(int i=0; i<str.length(); i++) {
+                if(str.charAt(i)==preChar) {
+                    cnt++;
+                }
+                else {
+                    newStr += Integer.toString(cnt);
+                    newStr += Character.toString(preChar);
+                    cnt = 1;
+                    preChar = str.charAt(i);
+                }
+            }
+            newStr += Integer.toString(cnt);
+            newStr += Character.toString(preChar);
+            str = newStr;
+        }
+        return str;
+    }
+}

@@ -1,0 +1,145 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode(0);
+        ListNode root = new ListNode(0);
+        root.next = res;
+        int add = 0;
+        while(true) {
+            res.val = (l1.val +  l2.val + add)%10;
+            add = (l1.val + l2.val + add)/10;
+            if(l1.next!=null && l2.next!=null) {
+                res.next = new ListNode(0);
+                res = res.next;
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            else
+                break;
+        }
+        if(l1.next!=null) {
+            res.next = new ListNode(0);
+            res = res.next;
+            l1 = l1.next;
+            while(true) {
+                res.val = (l1.val + add)%10;
+                add = (l1.val + add)/10;
+                if(l1.next!=null) {
+                    res.next = new ListNode(0);
+                    res = res.next;
+                    l1 = l1.next;
+                }
+                else
+                    break;
+            }
+        }
+        if(l2.next!=null) {
+            res.next = new ListNode(0);
+            res = res.next;
+            l2 = l2.next;
+            while(true) {
+                res.val = (l2.val + add)%10;
+                add = (l2.val + add)/10;
+                if(l2.next!=null) {
+                    res.next = new ListNode(0);
+                    res = res.next;
+                    l2 = l2.next;
+                }
+                else
+                    break;
+            }
+        }
+        if(add!=0) 
+            res.next = new ListNode(add);
+        return root.next;
+    }
+}
+
+
+// Dec 11
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode root = new ListNode(0);
+        ListNode resl = new ListNode(0);
+        root.next = resl;
+        int add = 0;
+        while (true){
+            add = l1.val + l2.val + add;
+            System.out.println(add);
+            resl.val = add % 10;
+            add = add / 10;
+            if (l1.next!=null && l2.next!=null){
+                l1 = l1.next;
+                l2 = l2.next;
+                ListNode newNode = new ListNode(0);
+                resl.next = newNode;
+                resl = resl.next;
+            }
+            else {
+                break;
+            }
+        }
+        if (l2.next!=null){
+            ListNode newNode = new ListNode(0);
+            resl.next = newNode;
+            resl = resl.next;
+            l2 = l2.next;
+            while (true){
+                add = l2.val + add;
+                System.out.println(add);
+                resl.val = add % 10;
+                add = add / 10;
+                if (l2.next!=null){
+                    newNode = new ListNode(0);
+                    resl.next = newNode;
+                    resl = resl.next;
+                    l2 = l2.next;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        if (l1.next!=null){
+            ListNode newNode = new ListNode(0);
+            resl.next = newNode;
+            resl = resl.next;
+            l1 = l1.next;
+            while (true){
+                add = l1.val + add;
+                System.out.println(add);
+                resl.val = add % 10;
+                add = add / 10;
+                if (l1.next!=null){
+                    newNode = new ListNode(0);
+                    resl.next = newNode;
+                    resl = resl.next;
+                    l1 = l1.next;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        if (add!=0){
+            ListNode newNode = new ListNode(add);
+            resl.next = newNode;
+        }
+        return root.next;
+    }
+}

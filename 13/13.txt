@@ -1,0 +1,32 @@
+public class Solution {
+    public int romanToInt(String s) {
+        int preNum = 0;
+        int curNum = 0;
+        int sum = 0;
+        for(int i=0; i<s.length(); i++) {
+            if(s.substring(i,i+1).equals("I"))
+                curNum = 1;
+            if(s.substring(i,i+1).equals("V"))
+                curNum = 5;
+            if(s.substring(i,i+1).equals("X"))
+                curNum = 10;
+            if(s.substring(i,i+1).equals("L"))
+                curNum = 50;
+            if(s.substring(i,i+1).equals("C"))
+                curNum = 100;
+            if(s.substring(i,i+1).equals("D"))
+                curNum = 500;
+            if(s.substring(i,i+1).equals("M"))
+                curNum = 1000;
+            if(preNum!=0) {
+                if(curNum>preNum)
+                    sum -= preNum;
+                else
+                    sum += preNum;
+            }
+            preNum = curNum;
+        }
+        sum += curNum;
+        return sum;
+    }
+}

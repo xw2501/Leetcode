@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists==null)
+            return null;
+        if(lists.length<=2)
+            return mergeSort(lists);
+        else {
+            int mid = lists.length/2;
+            ListNode pre = mergeKLists(copyOfRange(lists, 0, mid));
+            ListNode nex = mergeKLists(copyOfRange(lists, mid+1, lists.length-1));
+            ListNode[] arr = new ListNode[2];
+            arr[0] = pre;
+            arr[1] = nex;
+            return mergeSort(arr);
+        }
+    }
+    
+    public ListNode mergeSort(ListNode[] lists) {
+        ListNode root = new ListNode(0);
+        ListNode temp = new ListNode(0);
+        root.next = temp;
+        List<ListNode> listsList = new ArrayList<ListNode>();
+        for(int i=0; i<lists.length; i++)
+            if(lists[i]!=null)
+                listsList.add(lists[i]);
+        if(listsList.size()==0)
+            return null;
+        while(!listsList.isEmpty()) {
+            int index = getMinIndex(listsList);
+            temp.val = listsList.get(index).val;
+            if(listsList.get(index).next==null)
+                listsList.remove(index);
+            else
+                listsList.set(index, listsList.get(index).next);
+            if(listsList.isEmpty())
+                break;
+            temp.next = new ListNode(0);
+            temp = temp.next;
+        }
+        return root.next;
+    }
+        
+    public int getMinIndex(List<ListNode> listsList) {
+        int index = 0;
+        for(int i=0; i<listsList.size(); i++) {
+            if(listsList.get(index).val>listsList.get(i).val)
+                index = i;
+        }
+        return index;
+    }
+    
+    public ListNode[] copyOfRange(ListNode[] lists, int from, int to) {
+        ListNode[] res = new ListNode[to-from+1];
+        for(int i=from; i<=to; i++)
+            res[i-from] = lists[i];
+        return res;
+    }
+}

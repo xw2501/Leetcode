@@ -1,0 +1,33 @@
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if(!wordList.contains(endWord))
+            return 0;
+        if(wordList.contains(beginWord))
+            wordList.remove(beginWord);
+        List<String> wordDict = new ArrayList<String>();
+        wordDict.add(beginWord);
+        return search(wordDict, wordList, endWord, 1);
+    }
+    
+    public int search(List<String> wordDict, List<String> wordList, String endWord, int times) {
+        List<String> nextDict = new ArrayList<String>();
+        for(int i=0; i<wordDict.size(); i++) {
+            for(int j=0; j<wordList.size(); j++) {
+                int var = 0;
+                for(int k=0; k<endWord.length(); k++)
+                    if(wordDict.get(i).charAt(k)!=wordList.get(j).charAt(k))
+                        var++;
+                if(var==1) {
+                    if(wordList.get(j).equals(endWord))
+                        return (times+1);
+                    else
+                        nextDict.add(wordList.remove(j--));
+                }
+            }
+        }
+        if(nextDict.size()==0)
+            return 0;
+        else
+            return search(nextDict, wordList, endWord, times+1);
+    }
+}

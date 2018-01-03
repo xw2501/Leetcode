@@ -1,0 +1,27 @@
+public class Solution {
+    public int maxArea(int[] height) {
+        return getMax(height);
+    }
+    
+    public int getMax(int[] height) {
+        int sum = 0;
+        int left = 0;
+        int right = height.length-1;
+        while(left<right) {
+            int temp = getMin(height[right], height[left]) * (right-left);
+            sum = sum > temp ? sum : temp;
+            if(height[left]<height[right])
+                left++;
+            else
+                right--;
+        }
+        return sum;
+    }
+    
+    public int getMin(int a, int b) {
+        if(a>b)
+            return b;
+        else
+            return a;
+    }
+}

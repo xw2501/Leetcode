@@ -1,0 +1,34 @@
+public class Solution {
+    public String multiply(String num1, String num2) {
+        int[] arr1 = new int[num1.length()];
+        int[] arr2 = new int[num2.length()];
+        int[] res = new int[arr1.length+arr2.length+1];
+        
+        for(int i=0; i<arr1.length; i++)
+            arr1[i] = (int) num1.charAt(num1.length()-1-i)-48;
+        for(int i=0; i<arr2.length; i++)
+            arr2[i] = (int) num2.charAt(num2.length()-1-i)-48;
+        
+        for(int i=0; i<arr1.length; i++) {
+            for(int j=0; j<arr2.length; j++) {
+                res[i+j] += arr1[i]*arr2[j];
+            }
+        }
+        
+        int add = 0;
+        for(int i=0; i<res.length; i++) {
+            int temp = res[i] + add;
+            res[i] = temp%10;
+            add = temp/10;
+        }
+            
+        String mul = "";
+        for(int i=res.length-1; i>=0; i--)
+            mul += Integer.toString(res[i]);
+        while(mul.startsWith("0"))
+            mul = mul.substring(1, mul.length());
+        if(mul.equals(""))
+            mul = "0";
+        return mul;
+    }
+}

@@ -1,0 +1,50 @@
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] matrix = new int[n][n];
+        if(n==0)
+            return matrix;
+        int top = 0;
+        int left = 0;
+        int bottom = matrix.length-1;
+        int right = matrix[0].length-1;
+        int cnt = 0;
+        
+        while(true) {
+            int i = 0, j = 0;
+            
+            //go right
+            if(left>right)
+                break;
+            i = top++;
+            for(j=left; j<=right; j++) {
+                matrix[i][j] = ++cnt;
+            }
+            
+            //go down
+            if(bottom<top)
+                break;
+            j = right--;
+            for(i=top; i<=bottom; i++) {
+                matrix[i][j] = ++cnt;
+            }
+            
+            //go left
+            if(left>right)
+                break;
+            i = bottom--;
+            for(j=right; j>=left; j--) {
+                matrix[i][j] = ++cnt;
+            }
+            
+            //go up
+            if(bottom<top)
+                break;
+            j = left++;
+            for(i=bottom; i>=top; i--) {
+                matrix[i][j] = ++cnt;
+            }
+        }
+        
+        return matrix;
+    }
+}

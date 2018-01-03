@@ -1,0 +1,13 @@
+public class Solution {
+    public int mySqrt(int x) {
+        if(x0)
+            return -1;
+        for(int j=0; ; j++) {
+            int tmp = jj;
+            if(tmpx)
+                return --j;
+            if(tmp0)
+                return --j;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+public class Solution {
+    public int largestRectangleArea(int[] heights) {
+        if(heights.length==0) {
+            return 0;
+        }
+        int rec = heights[0];
+        int minHeight = heights[0];
+        for(int i=0; i<heights.length; i++) {
+            if(heights[i]==minHeight && i>0)
+                continue;
+            int recTemp = heights[i]*getLength(heights, i);
+            if(recTemp>rec)
+                rec = recTemp;
+            if(heights[i]<minHeight)
+                minHeight = heights[i];
+        }
+        return rec;
+    }
+    
+    public int getLength(int[] heights, int index) {
+        int length = 0;
+        for(int i=index; i>=0; i--) {
+            if(heights[i]>=heights[index])
+                length++;
+            else
+                break;
+        }
+        for(int i=index+1; i<heights.length; i++)
+            if(heights[i]>=heights[index])
+                length++;
+            else
+                break;
+        return length;
+    }
+}

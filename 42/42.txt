@@ -1,0 +1,46 @@
+public class Solution {
+    public int trap(int[] height) {
+        if(height.length==0 || height.length==1)
+            return 0;
+        int preHighest = getHighest(height);
+        int nexHighest = getHighestReverse(height);
+        int drop = 0;
+        int curHigh = 0;
+        for(int i=0; i<preHighest; i++) {
+            curHigh = curHigh > height[i] ? curHigh : height[i];
+            drop = drop + curHigh - height[i];
+        }
+        curHigh = 0;
+        for(int i=height.length-1; i>nexHighest; i--) {
+            curHigh = curHigh > height[i] ? curHigh : height[i];
+            drop = drop + curHigh - height[i];
+        }
+        if(preHighest!=nexHighest) {
+            for(int i=preHighest+1; i<nexHighest; i++)
+                drop = drop + height[preHighest] - height[i];
+        }
+        return drop;
+    }
+    
+    public int getHighest(int[] height) {
+        int high = 0;
+        int index = 0;
+        for(int i=0; i<height.length; i++)
+            if(height[i]>high) {
+                high = height[i];
+                index = i;
+            }
+        return index;
+    }
+    
+    public int getHighestReverse(int[] height) {
+        int high = 0;
+        int index = 0;
+        for(int i=0; i<height.length; i++)
+            if(height[i]>=high) {
+                high = height[i];
+                index = i;
+            }
+        return index;
+    }
+}
