@@ -1,0 +1,20 @@
+class Solution {
+    public int maximumSwap(int num) {
+        String str = Integer.toString(num);
+        for(int i=0; i<str.length()-1; i++) {
+            int index = i;
+            char charMax = str.charAt(i);
+            for(int j=i+1; j<str.length(); j++) {
+                if(str.charAt(j)>=charMax) {
+                    charMax = str.charAt(j);
+                    index = j;
+                }
+            }
+            if(charMax!=str.charAt(i)) {
+                str = str.substring(0, i) + str.substring(index, index+1) + str.substring(i+1, index) + str.substring(i, i+1) + str.substring(index+1, str.length());
+                break;
+            }
+        }
+        return Integer.parseInt(str);
+    }
+}

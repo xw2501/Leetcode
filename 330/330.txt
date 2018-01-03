@@ -1,0 +1,17 @@
+public class Solution {
+    public int minPatches(int[] nums, int n) {
+        int patch = 0;
+        long temp = 1;
+        int i = 0;
+        while(temp<=n) {
+            if(i<nums.length && nums[i]<=temp)
+                temp += nums[i++];
+            else {
+                System.out.println(temp);
+                temp += temp;
+                patch++;
+            }
+        }
+        return patch;
+    }
+}

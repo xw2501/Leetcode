@@ -1,0 +1,13 @@
+class Solution {
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int left = Math.max(A, E);
+        int right = Math.min(C, G);
+        int above = Math.min(D, H);
+        int below = Math.max(B, F);
+        
+        if(left>=right || above<=below)
+            return (D-B)*(C-A) + (H-F)*(G-E);
+        else
+            return (D-B)*(C-A) + (H-F)*(G-E) - (right-left)*(above-below);
+    }
+}

@@ -1,0 +1,34 @@
+
+
+public class MedianFinder {
+    private List<Integer> list;
+    public MedianFinder() {
+        list = new ArrayList<Integer>();
+    }
+    
+    public void addNum(int num) {
+        for(int i=0; i<list.size(); i++)
+            if(num<list.get(i)) {
+                list.add(i, num);
+                return;
+            }
+        list.add(num);
+    }
+    
+    public double findMedian() {
+        int len = list.size();
+        if(len%2==0) {
+            return ((double) list.get(len/2-1) + (double) list.get(len/2))/2;
+        }
+        else
+            return (double) list.get((len-1)/2);
+    }
+}
+ 
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */

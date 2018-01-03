@@ -1,0 +1,29 @@
+class Solution {
+    public int minCostII(int[][] costs) {
+        int m = costs.length;
+        if(m==0)
+            return m;
+        int n = costs[m-1].length;
+        int[][] res = new int[m][n];
+        
+        for(int j=0; j<n; j++) {
+            res[0][j] = costs[0][j];
+        }
+        for(int i=1; i<m; i++) {
+            for(int j=0; j<n; j++) {
+                int min = Integer.MAX_VALUE;
+                for(int k=0; k<n; k++) {
+                    if(res[i-1][k]<min && j!=k)
+                        min = res[i-1][k];
+                }
+                res[i][j] = min + costs[i][j];
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for(int j=0; j<n; j++)
+            if(res[m-1][j]<min)
+                min = res[m-1][j];
+        
+        return min;
+    }
+}

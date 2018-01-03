@@ -1,0 +1,19 @@
+class Solution {
+    public boolean judgeCircle(String moves) {
+        int[] cor = new int[2];
+        for(int i=0; i<moves.length(); i++) {
+            char letter = moves.charAt(i);
+            switch(letter) {
+                case 'U':   cor[0]++;   break;
+                case 'D':   cor[0]--;   break;
+                case 'L':   cor[1]++;   break;
+                case 'R':   cor[1]--;   break;
+                default:    break;
+            }
+        }
+        if(cor[0]==0 && cor[1]==0)
+            return true;
+        else
+            return false;
+    }
+}

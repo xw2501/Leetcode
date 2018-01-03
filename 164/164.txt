@@ -1,0 +1,41 @@
+public class Solution {
+    public int maximumGap(int[] nums) {
+        
+        if(nums.length>=2)
+            nums = mergeSort(nums, 0, nums.length-1);
+        
+        int temp = 0;
+        int res = 0;
+        for(int i=0; i<nums.length-1; i++) {
+            temp = Math.abs(nums[i]-nums[i+1]);
+            if(temp>res)
+                res = temp;
+        }
+        return res;
+    }
+    
+    public int[] mergeSort(int[] nums, int start, int end) {
+        if(start==end) {
+            int[] res = {nums[start]};
+            return res;
+        }
+        int mid = (start+end)/2;
+        int[] arr1 = mergeSort(nums, start, mid);
+        int[] arr2 = mergeSort(nums, mid+1, end);
+        
+        int[] res = new int[end-start+1];
+        int p = 0, q = 0;
+        for(int i=0; i<res.length; i++) {
+            if(p<arr1.length && q<arr2.length) {
+                res[i] = arr1[p] < arr2[q] ? arr1[p++] : arr2[q++];
+                continue;
+            }
+            if(p<arr1.length) {
+                res[i] = arr1[p++];
+                continue;
+            }
+            res[i] = arr2[q++];
+        }
+        return res;
+    }
+}

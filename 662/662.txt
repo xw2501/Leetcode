@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int widthOfBinaryTree(TreeNode root) {
+        List<Integer> listMin = new LinkedList<>();
+        List<Integer> listMax = new LinkedList<>();
+        int width = 0;
+        if(root!=null) {
+            listMin.add(0, 1);
+            listMax.add(0, 1);
+            goTree(root, listMin, listMax, 1, 0);
+        }
+        for(int i=0; i<listMin.size(); i++)
+            if(listMax.get(i)-listMin.get(i)+1 > width)
+                width = listMax.get(i)-listMin.get(i)+1;
+        return width;
+    }
+    
+    public void goTree(TreeNode root, List<Integer> listMin, List<Integer> listMax, int cordi, int depth) {
+        int cordiLeft = 2*cordi-1;
+        int cordiRight = 2*cordi;
+        depth++;
+        //System.out.println(depth + " " + cordiLeft + " " + cordiRight);
+        
+        if(root.left!=null) {
+            if(listMin.size()>depth) {
+                listMin.set(depth, cordiLeft < listMin.get(depth) ? cordiLeft : listMin.get(depth));
+                listMax.set(depth, cordiLeft > listMax.get(depth) ? cordiLeft : listMax.get(depth));
+            }
+            else {
+                listMin.add(depth, cordiLeft);
+                listMax.add(depth, cordiLeft);
+            }
+            goTree(root.left, listMin, listMax, cordiLeft, depth);
+        }
+        if(root.right!=null) {
+            if(listMax.size()>depth) {
+                listMax.set(depth, cordiRight > listMax.get(depth) ? cordiRight : listMax.get(depth));
+                listMin.set(depth, cordiRight < listMin.get(depth) ? cordiRight : listMin.get(depth));
+            }
+            else {
+                listMax.add(depth, cordiRight);
+                listMin.add(depth, cordiRight);
+            }
+            goTree(root.right, listMin, listMax, cordiRight, depth);
+        }
+    }
+}

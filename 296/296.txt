@@ -1,0 +1,44 @@
+class Solution {
+    public int minTotalDistance(int[][] grid) {
+        int[] row = new int[grid.length];
+        int[] col = new int[grid[0].length];
+        int sum = 0;
+        
+        for(int i=0; i<row.length; i++) {
+            for(int j=0; j<col.length; j++) {
+                if(grid[i][j]==1) {
+                    row[i]++;
+                    col[j]++;
+                    sum++;
+                }
+            }
+        }
+        sum /= 2;
+        
+        int preSum = 0;
+        int rowIndex = 0, colIndex = 0;
+        for(int i=0; i<row.length; i++) {
+            preSum += row[i];
+            if(preSum>sum) {
+                rowIndex = i;
+                break;
+            }
+        }
+        preSum = 0;
+        for(int j=0; j<col.length; j++) {
+            preSum += col[j];
+            if(preSum>sum) {
+                colIndex = j;
+                break;
+            }
+        }
+        
+        int res = 0;
+        for(int i=0; i<row.length; i++)
+            res += row[i]*Math.abs(i-rowIndex);
+        for(int j=0; j<col.length; j++)
+            res += col[j]*Math.abs(j-colIndex);
+        
+        return res;
+    }
+}

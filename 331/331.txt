@@ -1,0 +1,54 @@
+public class Solution {
+    
+    public boolean isValidSerialization(String preorder) {
+        if(preorder.length()==1) {
+            if(preorder.charAt(0)=='#')
+                return true;
+            else
+                return false;
+        }
+        char[] arrTmp = new char[preorder.length()];
+        int j = 0;
+        for(int i=0; i<preorder.length(); i++) {
+            if(preorder.charAt(i)!=',') {
+                arrTmp[j] = preorder.charAt(i);
+            }
+            else
+                j++;
+        }
+        char[] arr = new char[j+1];
+        for(int i=0; i<arr.length; i++)
+            arr[i] = arrTmp[i];
+        int[] depth = new int[arr.length];
+        int[] nums = new int[arr.length];
+        int depthIndex = 0;
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i]!='#') {
+            	nums[depthIndex]++;
+            	depth[depthIndex++]++;
+            }
+            if(arr[i]=='#') {
+                if(depth[depthIndex]%2==0)
+                    depth[depthIndex]++;
+                else {
+                    depth[depthIndex]++;
+                    while(true) {
+                    	depthIndex--;
+                    	if(depthIndex==0)
+                    		break;
+                    	if(depthIndex<0)
+                    		return false;
+                    	if(depth[depthIndex]!=nums[depthIndex-1]*2)
+                    		break;
+                    }
+                }
+            }
+        }
+        if(depth[0]!=1)
+        	return false;
+        for(int i=1; i<depth.length; i++)
+            if(depth[i]%2!=0)
+                return false;
+        return true;
+    }
+}

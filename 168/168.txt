@@ -1,0 +1,14 @@
+public class Solution {
+    public String convertToTitle(int n) {
+        String[] dict = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        String res = "";
+        
+        while(n!=0) {
+            n--;
+            res = dict[n%26] + res;
+            n = n/26;
+        }
+        
+        return res;
+    }
+}

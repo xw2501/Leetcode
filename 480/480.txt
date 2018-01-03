@@ -1,0 +1,62 @@
+public class Solution {
+    public double[] medianSlidingWindow(int[] nums, int k) {
+        List<Integer> list = new ArrayList<Integer>();
+        int len = nums.length-k+1;
+        double[] res = new double[len];
+        int mid = 0;
+        list.add(0, nums[0]);
+        for(int i=1; i<k; i++) {
+            int j = 0;
+            for( ; j<list.size(); j++) {
+                if(nums[i]<list.get(j)) {
+                    list.add(j, nums[i]);
+                    break;
+                }
+            }
+            if(j==list.size())
+                list.add(j, nums[i]);
+        }
+        if(k%2==0) {
+            mid = k/2-1;
+            res[0] = ((double)list.get(mid) + (double)list.get(mid+1))/2;
+            for(int i=1; i<len; i++) {
+                for(int j=0; j<list.size(); j++)
+                    if(list.get(j)==nums[i-1]) {
+                        list.remove(j);
+                        break;
+                    }
+                int j = 0;
+                for( ; j<list.size(); j++)
+                    if(nums[i-1+k]<list.get(j)) {
+                        list.add(j, nums[i-1+k]);
+                        break;
+                    }
+                if(j==list.size())
+                    list.add(j, nums[i-1+k]);
+                res[i] = ((double)list.get(mid) + (double)list.get(mid+1))/2;
+            }
+        }
+        else {
+            mid = (k-1)/2;
+            res[0] = (double) list.get(mid);
+            for(int i=1; i<len; i++) {
+                for(int j=0; j<list.size(); j++)
+                    if(list.get(j)==nums[i-1]) {
+                        list.remove(j);
+                        break;
+                    }
+                int j = 0;
+                for( ; j<list.size(); j++)
+                    if(nums[i-1+k]<list.get(j)) {
+                        list.add(j, nums[i-1+k]);
+                        break;
+                    }
+                if(j==list.size())
+                    list.add(j, nums[i-1+k]);
+                res[i] = (double) list.get(mid);
+                //System.out.println(list.get(0) + " " + list.get(1) + " " + list.get(2));
+            }
+        }
+        return res;
+    }
+}

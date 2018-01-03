@@ -1,0 +1,101 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        String str = "";
+        if(root==null) {
+            str += "N";
+            str += "*";
+        }
+        else {
+            str += Integer.toString(root.val);
+            str += "*";
+            if(root.right!=null) {
+                str += serialize(root.right);
+                //System.out.println("right.goTrack1");
+            }
+            else {
+                str += "N";
+                str += "*";
+                //System.out.println("right.goTrack2");
+            }
+            if(root.left!=null) {
+                str += serialize(root.left);
+                //System.out.println("left.goTrack1");
+            }
+            else {
+                str += "N";
+                str += "*";
+                //System.out.println("left.goTrack2");
+            }
+        }
+        //System.out.println(str);
+        return str;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        int index = data.indexOf("*");
+        if(data.substring(0, index).equals("N"))
+            return null;
+        else {
+            TreeNode node = new TreeNode(0);
+            String str = deProcess(data, node);
+            if(str.length()==0)
+                return node;
+            else {
+                node.left = null;
+                node.right = null;
+                node.val = 2333;
+                return node;
+            }
+        }
+    }
+    
+    public String deProcess(String data, TreeNode node) {
+        //System.out.println(data);
+        int index = data.indexOf("*");
+        node.val = Integer.parseInt(data.substring(0, index));
+        data = data.substring(index+1, data.length());
+        
+        String str = "";
+        //right
+        index = data.indexOf("*");
+        str = data.substring(0, index);
+        if(str.equals("N")) {
+            node.right = null;
+            data = data.substring(index+1, data.length());
+        }
+        else {
+            node.right = new TreeNode(0);
+            data = deProcess(data, node.right);
+        }
+        
+        //left
+        index = data.indexOf("*");
+        str = data.substring(0, index);
+        if(str.equals("N")) {
+            node.left = null;
+            data = data.substring(index+1, data.length());
+        }
+        else {
+            node.left = new TreeNode(0);
+            data = deProcess(data, node.left);
+        }
+        
+        return data;
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));

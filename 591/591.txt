@@ -1,0 +1,96 @@
+public class Solution {
+    public boolean isValid(String code) {
+        if(!isValidClosed(code))
+            return false;
+        
+        int startIndex = code.indexOf(">")+1;
+        int endIndex = code.lastIndexOf("</");
+        if(isValidContent(code.substring(startIndex, endIndex)))
+            return true;
+        else
+            return false;
+    }
+    
+    //check if tag is well closed
+    public boolean isValidClosed(String code) {
+        if(!code.startsWith("<")) {
+            return false;
+        }
+        int startIndex = code.indexOf("<")+1;
+        int endIndex = code.indexOf(">", startIndex);
+        if(endIndex==-1) {
+            return false;
+        }
+        String tag = code.substring(startIndex, endIndex);
+        String str = "</" + tag +">";
+        
+        if(tag.length()<1 || tag.length()>9) {
+            return false;
+        }
+        for(int i=0; i<tag.length(); i++) {
+            if(!Character.isUpperCase(tag.charAt(i))) {
+                return false;
+            }
+        }
+        if(code.endsWith(str))
+            return true;
+        else {
+            return false;
+        }
+    }
+    
+    //check if content is valid
+    public boolean isValidContent(String code) {
+        
+        //remove CData
+        while(true) { 
+            int CDataStartIndex = code.indexOf("<![CDATA[");
+            if(CDataStartIndex==-1)
+                break;
+            int CDataEndIndex = code.indexOf("]]>", CDataStartIndex)+3;
+            if(CDataEndIndex==2)
+                break;
+            code = code.substring(0, CDataStartIndex) + code.substring(CDataEndIndex, code.length());
+        }
+
+        //check if inner tag is well closed, if so, remove this tag and its content
+        while(true) {
+            int startIndex = code.indexOf("<")+1;
+            if(startIndex==0)
+                break;
+            int endIndex = code.indexOf(">", startIndex);
+            if(endIndex==-1) {
+                return false;
+            }
+            
+            String tag = code.substring(startIndex, endIndex);
+            startIndex--;
+            String str = "</" + tag + ">";
+            
+            if(tag.length()<1 || tag.length()>9) {
+                return false;
+            }
+            for(int i=0; i<tag.length(); i++) {
+                if(!Character.isUpperCase(tag.charAt(i))) {
+                    return false;
+                }
+            }
+            
+            endIndex = startIndex;
+            while(true) {
+                endIndex = code.indexOf(str, endIndex+1);
+                if(endIndex==-1) {
+                    return false;
+                }
+                if(isValidContent(code.substring(startIndex+2+tag.length(), endIndex))) {
+                    endIndex += str.length();
+                    code = code.substring(0, startIndex) + code.substring(endIndex, code.length());
+                    break;
+                }
+            }
+        }
+        
+        //satisfy all requirements, true
+        return true;
+    }
+}

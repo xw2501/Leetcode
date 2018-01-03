@@ -1,0 +1,111 @@
+public class Solution {
+        public static int trapRainWater(int[][] heightMap) {
+	        if(heightMap.length<3 || heightMap[0].length<3)
+	            return 0;
+	        int[][] res = new int[heightMap.length][heightMap[0].length];
+	        int drop = 0;
+	        for(int i=1; i<heightMap.length-1; i++)
+	            res[i] = trap(heightMap[i]);
+	        for(int i=1; i<heightMap[0].length-1; i++) {
+	            int[] temp = new int[heightMap.length];
+	            for(int j=0; j<heightMap.length; j++) {
+	                temp[j] = heightMap[j][i];
+	            }
+	            temp = trap(temp);
+	            for(int j=0; j<heightMap.length; j++) {
+	                res[j][i] = temp[j] > res[j][i] ? res[j][i] : temp[j];
+	            }
+	        }
+	        for(int i=1; i<heightMap[0].length-1; i++) {
+	            for(int j=1; j<heightMap.length-1; j++) {
+	                if(res[j][i]<=heightMap[j][i])
+	                    res[j][i] = 0;
+	            }
+	        }
+	        res = resort(res, heightMap);
+	        for(int i=1; i<heightMap[0].length-1; i++) {
+	            for(int j=1; j<heightMap.length-1; j++) {
+	                if(res[j][i]>heightMap[j][i])
+	                    drop += (res[j][i]-heightMap[j][i]);
+	            }
+	        }  
+	        return drop;
+	    }
+	    
+	    public static int[][] resort(int[][] res, int[][] heightMap) {
+	        boolean flag = true;
+	        while(flag) {
+	            flag = false;
+	            for(int i=1; i<res[0].length-1; i++) {
+	                for(int j=1; j<res.length-1; j++) {
+	                    if(res[j][i]>Math.max(res[j-1][i], heightMap[j-1][i])) {
+	                        res[j][i] = Math.max(res[j-1][i], heightMap[j-1][i]);
+	                        flag = true;
+	                    }
+	                    if(res[j][i]>Math.max(res[j+1][i], heightMap[j+1][i])) {
+	                        res[j][i] = Math.max(res[j+1][i], heightMap[j+1][i]);
+	                        flag = true;
+	                    }
+	                    if(res[j][i]>Math.max(res[j][i-1], heightMap[j][i-1])) {
+	                        res[j][i] = Math.max(res[j][i-1], heightMap[j][i-1]);
+	                        flag = true;
+	                    }
+	                    if(res[j][i]>Math.max(res[j][i+1], heightMap[j][i+1])) {
+	                        res[j][i] = Math.max(res[j][i+1], heightMap[j][i+1]);
+	                        flag = true;
+	                    }
+	                }
+	            }  
+	        }
+	        return res;
+	    }
+	    
+	        
+	    public static int[] trap(int[] height) {
+	        //if(height.length==0 || height.length==1)
+	        //    return 0;
+	        int preHighest = getHighest(height);
+	        int nexHighest = getHighestReverse(height);
+	        int[] drop = new int[height.length];
+	        int curHigh = 0;
+	        for(int i=0; i<preHighest; i++) {
+	            curHigh = curHigh > height[i] ? curHigh : height[i];
+	            drop[i] = curHigh; 
+	        }
+	        curHigh = 0;
+	        for(int i=height.length-1; i>nexHighest; i--) {
+	            curHigh = curHigh > height[i] ? curHigh : height[i];
+	            drop[i] = curHigh;
+	        }
+	        if(preHighest!=nexHighest) {
+	            for(int i=preHighest+1; i<nexHighest; i++)
+	                drop[i] = height[preHighest];
+	        }
+	        drop[0] = 0;
+	        drop[drop.length-1] = 0;
+	        return drop;
+	    }
+	    
+	    public static int getHighest(int[] height) {
+	        int high = 0;
+	        int index = 0;
+	        for(int i=0; i<height.length; i++)
+	            if(height[i]>high) {
+	                high = height[i];
+	                index = i;
+	            }
+	        return index;
+	    }
+	    
+	    public static int getHighestReverse(int[] height) {
+	        int high = 0;
+	        int index = 0;
+	        for(int i=0; i<height.length; i++)
+	            if(height[i]>=high) {
+	                high = height[i];
+	                index = i;
+	            }
+	        return index;
+	    }
+
+}
