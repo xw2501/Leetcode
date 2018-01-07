@@ -1,0 +1,23 @@
+class Solution {
+    public int lengthOfLastWord(String s) {
+        int tail = -1;
+        int head = -1;
+        for(int i=s.length()-1; i>=0; i--) {
+            if((s.charAt(i)>='a' && s.charAt(i)<='z') || (s.charAt(i)>='A' && s.charAt(i)<='Z')) {
+                tail = i;
+                break;
+            }
+        }
+        if(tail==-1) {
+            return 0;
+        }
+        for(int i=tail-1; i>=0; i--) {
+            if(!((s.charAt(i)>='a' && s.charAt(i)<='z') || (s.charAt(i)>='A' && s.charAt(i)<='Z'))) {
+                head = i;
+                break;
+            }
+        }
+        //System.out.println(tail);
+        return tail-head;
+    }
+}
