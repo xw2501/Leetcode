@@ -1,0 +1,35 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        if(numRows==1)
+		return s;
+        int charNum = s.length();
+	int count = 0;
+	boolean ascending = true;
+	String[] strs = new String[numRows];
+	String str = "";
+	for(int i=0; i<numRows; i++) {
+		strs[i] = "";
+	}
+	for(int i=0; i<charNum; i++) {
+		strs[count] += s.substring(i, i+1);
+		if(ascending) {
+			count++;
+			if(count==numRows) {
+				ascending = false;
+				count -= 2;
+			}
+		}
+		else {
+			count--;
+			if(count==-1) {
+				ascending = true;
+				count += 2;
+			}
+		}
+	}
+	for(int i=0; i<numRows; i++) {
+		str += strs[i];
+	}
+	return str;
+    }
+}
