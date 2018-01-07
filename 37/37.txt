@@ -1,0 +1,114 @@
+class Solution {
+    public void solveSudoku(char[][] board) {
+        fitSudoku(board);
+        boolean temp = trySudoku(board);
+    }
+    
+    public boolean trySudoku(char[][] board) {
+        for(int i=0; i<9; i++) {
+            for(int j=0; j<9; j++) {
+                if(board[i][j]=='.') {
+                    for(char k='1'; k<='9'; k++) {
+                        if(isValid(board, i, j, k)) {
+                            board[i][j] = k;
+                            if(trySudoku(board)) {
+                                return true;
+                            }
+                            else {
+                                board[i][j] = '.';
+                            }
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean isValid(char[][] board, int row, int col, char key){
+        for(int i=0; i<9; i++) {
+            if(board[i][col]==key) {
+                return false;
+            }
+        }
+        for(int i=0; i<9; i++) {
+            if(board[row][i]==key) {
+                return false;
+            }
+        }
+        int startRow = row/3;
+        int startCol = col/3;
+        startRow *= 3;
+        startCol *= 3;
+        for(int i=0; i<3; i++) {
+            for(int j=0; j<3; j++) {
+                if(board[startRow+i][startCol+j]==key) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public void fitSudoku(char[][] board) {
+        boolean isUpdate = false;
+        for(int i=0; i<9; i++) {
+            for(int j=0; j<9; j++) {
+                if(board[i][j]!='.') {
+                    continue;
+                }
+                HashMap<Integer, Integer> map = new HashMap<>();
+                for(int k=0; k<9; k++) {
+                    map.put(k+1, k+1);
+                }
+                
+                // check row
+                for(int k=0; k<9; k++) {
+                    int key = (int)board[i][k]-'0';
+                    if(map.containsKey(key)) {
+                        map.remove(key);
+                    }
+                }
+                
+                // check column
+                for(int k=0; k<9; k++) {
+                    int key = (int)board[k][j]-'0';
+                    if(map.containsKey(key)) {
+                        map.remove(key);
+                    }
+                }
+                
+                // check block
+                int startRow = i/3;
+                int startCol = j/3;
+                startRow *= 3;
+                startCol *= 3;
+                for(int m=0; m<3; m++) {
+                    for(int n=0; n<3; n++) {
+                        int key = (int)board[startRow+m][startCol+n]-'0';
+                        if(map.containsKey(key)) {
+                            map.remove(key);
+                        }
+                    }
+                }
+                
+                if(map.size()!=1) {
+                    continue;
+                }
+            
+                for(int k=0; k<9; k++) {
+                    if(map.containsKey(k+1)) {
+                    	char updateValue = (char)(k+'1');
+                        board[i][j] = updateValue;
+                        isUpdate = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(isUpdate) {
+            solveSudoku(board);
+        }
+    }
+}
