@@ -1,0 +1,25 @@
+class Solution {
+    public int thirdMax(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        for(int i=0; i<nums.length; i++) {
+            if(list.contains(nums[i])) {
+                continue;
+            }
+            else {
+                int j=0;
+                for(j=0; j<list.size(); j++) {
+                    if(nums[i]>list.get(j)) {
+                        break;
+                    }
+                }
+                list.add(j, nums[i]);
+            }
+        }
+        if(list.size()>=3) {
+            return list.get(2);
+        }
+        else {
+            return list.get(0);
+        }
+    }
+}
