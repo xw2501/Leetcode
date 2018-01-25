@@ -1,0 +1,58 @@
+class Solution {
+    public int maxChunksToSorted(int[] arr) {
+        int[] cpy = new int[arr.length];
+        for(int i=0; i<arr.length; i++) {
+            cpy[i] = arr[i];
+        }
+        Arrays.sort(cpy);
+        
+        int chunk = 0;
+        HashMap<Integer, Integer> arrmap = new HashMap<>();
+        HashMap<Integer, Integer> cpymap = new HashMap<>();
+        for(int i=0; i<arr.length; i++) {
+            if(arrmap.isEmpty() && cpymap.isEmpty()) {
+                chunk += 1;
+                if(arr[i]!=cpy[i]) {
+                    arrmap.put(arr[i], 1);
+                    cpymap.put(cpy[i], 1);
+                }
+                continue;
+            }
+            if(cpymap.containsKey(arr[i])) {
+                int val = cpymap.get(arr[i]) - 1;
+                if(val==0) {
+                    cpymap.remove(arr[i]);
+                }
+                else {
+                    cpymap.put(arr[i], val);
+                }
+            }
+            else {
+                if(arrmap.containsKey(arr[i])) {
+                    arrmap.put(arr[i], arrmap.get(arr[i])+1);
+                }
+                else {
+                    arrmap.put(arr[i], 1);    
+                }
+            }
+            if(arrmap.containsKey(cpy[i])) {
+                int val = arrmap.get(cpy[i]) - 1;
+                if(val==0) {
+                    arrmap.remove(cpy[i]);
+                }
+                else {
+                    arrmap.put(cpy[i], val);
+                }
+            }
+            else{
+                if(cpymap.containsKey(cpy[i])) {
+                    cpymap.put(cpy[i], cpymap.get(cpy[i])+1);
+                }
+                else {
+                    cpymap.put(cpy[i], 1);   
+                }
+            }
+        }
+        return chunk;
+    }
+}
