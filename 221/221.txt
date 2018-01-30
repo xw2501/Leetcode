@@ -1,0 +1,40 @@
+class Solution {
+    public int maximalSquare(char[][] matrix) {
+        int m = matrix.length;
+        if(m==0) {
+            return 0;
+        }
+        int n = matrix[0].length;
+        
+        int[][] maxSquare = new int[m][n];
+        int maxLen = 0;
+        for(int i=0; i<m; i++) {
+            maxSquare[i][0] = (int)(matrix[i][0] - '0');
+            if(maxSquare[i][0]>maxLen) {
+                maxLen = maxSquare[i][0];
+            }
+        }
+        for(int j=0; j<n; j++) {
+            maxSquare[0][j] = (int)(matrix[0][j] - '0');
+            if(maxSquare[0][j]>maxLen) {
+                maxLen = maxSquare[0][j];
+            }
+        }
+        
+        for(int i=1; i<m; i++) {
+            for(int j=1; j<n; j++) {
+                if(matrix[i][j]=='0') {
+                    maxSquare[i][j] = 0;
+                }
+                else {
+                    maxSquare[i][j] = Math.min(Math.min(maxSquare[i-1][j], maxSquare[i][j-1]), maxSquare[i-1][j-1]) + 1;
+                    if(maxSquare[i][j]>maxLen) {
+                        maxLen = maxSquare[i][j];
+                    }
+                }
+            }
+        }
+        
+        return maxLen * maxLen;
+    }
+}

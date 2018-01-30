@@ -1,0 +1,68 @@
+class MinStack {
+
+    /** initialize your data structure here. */
+    public Stack<Integer> stk;
+    public List<Integer> list;
+    public HashMap<Integer, Integer> map;
+    
+    public MinStack() {
+        stk = new Stack<>();
+        list = new ArrayList<>();
+        map = new HashMap<>();
+    }
+    
+    public void push(int x) {
+        stk.push(x);
+        if(!list.contains(x)) {
+            int idx = 0;
+            for(idx=0; idx<list.size(); idx++) {
+                if(list.get(idx)>x) {
+                    break;
+                }
+            }
+            list.add(idx, x);
+        }
+        if(!map.containsKey(x)) {
+            map.put(x, 1);
+        }
+        else {
+            map.put(x, map.get(x)+1);
+        }
+    }
+    
+    public void pop() {
+        int x = stk.pop();
+        int val = map.get(x) - 1;
+        if(val!=0) {
+            map.put(x, val);
+        }
+        else {
+            map.remove(x);
+            int idx = 0;
+            for(int i=0; i<list.size(); i++) {
+                if(list.get(i)==x) {
+                    idx = i;
+                    break;
+                }
+            }
+            list.remove(idx);
+        }
+    }
+    
+    public int top() {
+        return stk.peek();
+    }
+    
+    public int getMin() {
+        return list.get(0);
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */

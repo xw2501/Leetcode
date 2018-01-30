@@ -1,0 +1,14 @@
+class Solution {
+    public int rob(int[] nums) {
+        int max_rob = 0;
+        int max_n_rob = 0;
+        
+        for(int i=0; i<nums.length; i++) {
+            int temp = max_rob;
+            max_rob = max_n_rob + nums[i];
+            max_n_rob = temp > max_n_rob ? temp : max_n_rob;
+        }
+        
+        return max_rob > max_n_rob ? max_rob : max_n_rob; 
+    }
+}
