@@ -1,0 +1,49 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        int saved = 0;
+        int len = 0;
+        if(s.length()%2==0) {
+            len = s.length()-1;
+        }
+        else {
+            len = s.length();
+        }
+        
+        for(int i=len/2; i>=1; i--) {
+            if(isPalindromeOdd(s, i)) {
+                saved = Math.max(saved, i*2);
+                break;
+            }
+            if(isPalindromeEven(s, i)) {
+                saved = Math.max(saved, i*2-1);
+                break;
+            }
+        }
+        
+        String str = "";
+        for(int i=s.length()-1; i>saved; i--) {
+            str += s.substring(i, i+1);
+        }
+        str += s;
+        
+        return str;
+    }
+    
+    public boolean isPalindromeOdd(String s, int i) {
+        for(int j=0; j<=i; j++) {
+            if(s.charAt(i-j)!=s.charAt(i+j)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isPalindromeEven(String s, int i) {
+        for(int j=0; j<=i-1; j++) {
+            if(s.charAt(i-1-j)!=s.charAt(i+j)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

@@ -1,0 +1,23 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        
+        int bulls = 0;
+        int cows  = 0;
+        
+        for(int i=0; i<secret.length(); i++) {
+            if(secret.charAt(i)==guess.charAt(i)) {
+                bulls ++;
+            }
+        }
+        
+        for(int i=0; i<secret.length(); i++) {
+            if(guess.contains(secret.substring(i, i+1))) {
+                guess = guess.replaceFirst(secret.substring(i, i+1), "*");
+                cows ++;
+            }
+        }
+        
+        return Integer.toString(bulls)+"A"+Integer.toString(cows-bulls)+"B";
+
+    }
+}
